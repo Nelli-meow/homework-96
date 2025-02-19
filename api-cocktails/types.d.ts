@@ -9,7 +9,7 @@ export interface UserFields {
 }
 
 export interface CocktailMutation {
-    user: string;
+    user: ObjectId;
     name: string;
     image: string | null;
     recipe: string;

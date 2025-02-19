@@ -37,7 +37,7 @@ UsersRouter.post("/google",  imagesUpload.single('image'), async (req, res, next
             return;
         }
 
-        let user = await User.findOne({googleID: id});
+        let user = await User.findOne({ $or: [{ googleId: id }, { email: email }] });
 
         if(!user) {
             user = new User({
@@ -50,7 +50,7 @@ UsersRouter.post("/google",  imagesUpload.single('image'), async (req, res, next
         }
 
         user.generateToken();
-        await user.save();
+        await user.save({ validateBeforeSave: false });
 
         res.status(200).send({message: 'Login with Google successfully', user});
     } catch (e) {
@@ -78,8 +78,6 @@ UsersRouter.post('/register' , imagesUpload.single('image'), async (req, res) =>
         });
 
         user.generateToken();
-
-        console.log(user);
         await user.save();
         res.status(200).send({user, message: 'Successfully registered'});
     } catch (error) {
@@ -109,7 +107,7 @@ UsersRouter.post('/sessions', async (req, res) => {
         }
 
         user.generateToken();
-        await user.save();
+        await user.save({ validateBeforeSave: false });
 
         res.send({message: 'Email and password are correct!', user});
 

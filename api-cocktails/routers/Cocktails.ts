@@ -3,6 +3,7 @@ import auth, {RequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
 import Cocktail from "../models/Cocktail";
 import {imagesUpload} from "../multer";
+import {CocktailMutation} from "../types";
 
 const CocktailRouter = express.Router();
 
@@ -34,7 +35,7 @@ CocktailRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'adm
             return;
         }
 
-        const newCocktail = {
+        const newCocktail: CocktailMutation = {
             user: user._id,
             name: name,
             image: req.file ? 'images' + req.file.filename : null,
