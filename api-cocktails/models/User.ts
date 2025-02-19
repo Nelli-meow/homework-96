@@ -6,7 +6,6 @@ import {randomUUID} from "crypto";
 
 interface UserMethods {
     checkPassword(password: string): Promise<boolean>;
-
     generateToken(): void;
 }
 
@@ -15,24 +14,32 @@ type UserModel = Model<UserFields, {}, UserMethods>
 const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
 
+const regEmail = /^(\w+[-.]?\w+)@(\w+)([.-]?\w+)?(\.[a-zA-Z]{2,3})$/;
+
 const UserSchema = new Schema<
     HydratedDocument<UserFields>,
     UserModel,
     UserMethods>({
 
-    email: String,
-    username: {
+    email: {
         type: String,
         required: true,
         unique: true,
-        validate: {
-            validator: async function (this: HydratedDocument<UserFields>, value: string): Promise<boolean> {
-                if (!this.isModified('username')) return true;
-                const user: UserFields | null = await User.findOne({username: value});
-                return !user;
+        validate: [
+            {
+                validator: async function (this: HydratedDocument<UserFields>, value: string): Promise<boolean> {
+                    const user: UserFields | null = await User.findOne({ email: value });
+                    return !user;
+                },
+                message: "This Email already exists",
             },
-            message: "This Username already exists",
-        }
+            {
+                validator:  async function (this: HydratedDocument<UserFields>, value: string): Promise<boolean> {
+                    return regEmail.test(value);
+                },
+                message: "Invalid email format",
+            },
+        ]
     },
     password: {
         type: String,
@@ -65,9 +72,7 @@ UserSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
 
     const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-    const hash = await bcrypt.hash(this.password, salt);
-
-    this.password = hash;
+    this.password = await bcrypt.hash(this.password, salt);
     next();
 });
 

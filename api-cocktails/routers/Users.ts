@@ -41,7 +41,7 @@ UsersRouter.post("/google",  imagesUpload.single('image'), async (req, res, next
 
         if(!user) {
             user = new User({
-                username: email,
+                email: email,
                 password: crypto.randomUUID(),
                 googleId: id,
                 displayName: displayName,
@@ -71,14 +71,15 @@ UsersRouter.post('/register' , imagesUpload.single('image'), async (req, res) =>
 
     try {
         const user = new User({
-            username: req.body.username,
+            email: req.body.email,
             password: req.body.password,
             displayName: req.body.displayName,
-            image:  req.file ? 'images' + req.file.filename : null,
+            image:  req.file ? 'images/' + req.file.filename : null,
         });
 
         user.generateToken();
 
+        console.log(user);
         await user.save();
         res.status(200).send({user, message: 'Successfully registered'});
     } catch (error) {
@@ -92,11 +93,11 @@ UsersRouter.post('/register' , imagesUpload.single('image'), async (req, res) =>
 UsersRouter.post('/sessions', async (req, res) => {
     try {
         const user = await User.findOne({
-            username: req.body.username,
+            email: req.body.email,
         });
 
         if (!user) {
-            res.status(400).send({error: 'Username Not Found'});
+            res.status(400).send({error: 'Email Not Found'});
             return;
         }
 
@@ -110,7 +111,7 @@ UsersRouter.post('/sessions', async (req, res) => {
         user.generateToken();
         await user.save();
 
-        res.send({message: 'Username and password are correct!', user});
+        res.send({message: 'Email and password are correct!', user});
 
     } catch (error) {
         if (error instanceof Error.ValidationError) {
