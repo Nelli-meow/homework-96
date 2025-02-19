@@ -7,3 +7,11 @@ export interface UserFields {
     email: string;
     image: string;
 }
+
+export interface CocktailMutation {
+    user: string;
+    name: string;
+    image: string | null;
+    recipe: string;
+    ingredients: string[];
+}
