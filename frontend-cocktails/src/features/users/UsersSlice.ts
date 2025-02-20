@@ -40,7 +40,7 @@ export const usersSlice = createSlice({
         state.registerError = null;
       })
       .addCase(register.fulfilled, (state, {payload: userResponse}) => {
-        state.registerLoading = true;
+        state.registerLoading = false;
         state.user = userResponse.user;
       })
       .addCase(register.rejected, (state, {payload: error}) => {
@@ -52,7 +52,7 @@ export const usersSlice = createSlice({
         state.loginError = null;
       })
       .addCase(login.fulfilled, (state, {payload: user}) => {
-        state.loginLoading = true;
+        state.loginLoading = false;
         state.user = user;
       })
       .addCase(login.rejected, (state, {payload: error}) => {
@@ -64,7 +64,7 @@ export const usersSlice = createSlice({
         state.loginError = null;
       })
       .addCase(googleLogin.fulfilled, (state, {payload: user}) => {
-        state.loginLoading = true;
+        state.loginLoading = false;
         state.user = user;
       })
       .addCase(googleLogin.rejected, (state, {payload: error}) => {

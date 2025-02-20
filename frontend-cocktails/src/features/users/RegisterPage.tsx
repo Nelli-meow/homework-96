@@ -53,7 +53,7 @@ const RegisterPage = () => {
 
   const getFiledError = (fieldName: string) => {
     try {
-      return registerError?.errors?.[fieldName].message;
+      return registerError?.errors?.[fieldName]?.message || '';
     } catch (e) {
       return e;
     }
