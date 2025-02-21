@@ -33,7 +33,7 @@ const Cocktails = () => {
             .map((cocktail) => (
               <div key={cocktail._id}>
                 <div className="container mx-auto px-4">
-                  <CocktailItem name={cocktail.name} recipe={cocktail.recipe}/>
+                  <CocktailItem name={cocktail.name} recipe={cocktail.recipe} image={cocktail.image} />
                 </div>
               </div>
             ))
