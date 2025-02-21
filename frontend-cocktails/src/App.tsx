@@ -8,6 +8,8 @@ import { useAppSelector } from './app/hooks.ts';
 import { selectUser } from './features/users/UsersSlice.ts';
 import NewCocktail from './features/cocktails/cocktailContainer/NewCocktail.tsx';
 import MainPage from './containers/MainPage.tsx';
+import AdminPage from './containers/AdminPage/AdminPage.tsx';
+import UnpublishedCocktails from './containers/AdminPage/UnpublishedCocktails.tsx';
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -23,6 +25,16 @@ const App = () => {
         <Route path="/cocktails/new" element={
           <ProtectedRoute isaAllowed={!!user}>
             <NewCocktail/>
+          </ProtectedRoute>
+        } />
+        <Route path="/unpublished" element={
+          <ProtectedRoute isaAllowed={user && user.role == 'admin'}>
+            <AdminPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/unpublished" element={
+          <ProtectedRoute isaAllowed={user && user.role == 'admin'}>
+            <UnpublishedCocktails />
           </ProtectedRoute>
         } />
       </Routes>

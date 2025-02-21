@@ -81,6 +81,8 @@ CocktailRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req, 
             return;
         }
 
+        console.log("Received ID:", id);
+
         cocktail.isPublished = !cocktail.isPublished;
         await cocktail.save();
 

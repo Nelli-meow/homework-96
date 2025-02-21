@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosApi from '../../axiosApi.ts';
-import { ICocktailMutation, ICocktails } from '../../types';
+import { GlobalError, ICocktailMutation, ICocktails } from '../../types';
+import { isAxiosError } from 'axios';
 
 
 export const fetchCocktailsThunk = createAsyncThunk(
@@ -28,5 +29,21 @@ export const addNewCocktail = createAsyncThunk<void, { cocktail: ICocktailMutati
     });
 
     await axiosApi.post('/cocktails', formData, { headers: { 'Authorization': token } });
+  }
+);
+
+export const publishCocktail = createAsyncThunk(
+  'cocktails/publishCocktail',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosApi.patch(`/cocktails/${id}/togglePublished`);
+
+      return response.data;
+    } catch (error) {
+      if(isAxiosError(error) && error.response && error.response.status === 400 ) {
+        return rejectWithValue(error.response.data as GlobalError);
+      }
+      throw error;
+    }
   }
 );

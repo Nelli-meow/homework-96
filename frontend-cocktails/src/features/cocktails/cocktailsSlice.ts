@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICocktails } from '../../types';
-import { addNewCocktail, fetchCocktailsThunk } from './cocktailsThunk.ts';
+import { addNewCocktail, fetchCocktailsThunk, publishCocktail } from './cocktailsThunk.ts';
 import { RootState } from '../../app/store.ts';
 
 interface ICocktailsState {
@@ -29,7 +29,7 @@ export const cocktailsSlice = createSlice({
   name: 'cocktails',
   initialState,
   reducers: {},
-  extraReducers:(builder) => {
+  extraReducers: (builder) => {
     builder
       .addCase(fetchCocktailsThunk.pending, (state) => {
         state.fetchCocktails = true;
@@ -56,6 +56,19 @@ export const cocktailsSlice = createSlice({
       .addCase(addNewCocktail.rejected, (state) => {
         state.fetchCocktails = false;
         state.createLoading = false;
+      })
+
+      .addCase(publishCocktail.pending, (state) => {
+        state.isPublished = true;
+      })
+      .addCase(publishCocktail.fulfilled, (state, {payload}) => {
+        state.isPublished = false;
+        state.Cocktails = state.Cocktails.map((cocktail) =>
+          cocktail._id === payload._id ? {...cocktail, isPublished: true} : cocktail,
+        );
+      })
+      .addCase(publishCocktail.rejected, (state) => {
+        state.isPublished = false;
       });
   }
 });
