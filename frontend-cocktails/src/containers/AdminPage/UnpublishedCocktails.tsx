@@ -10,10 +10,8 @@ const UnpublishedCocktails = () => {
   const cocktails = useAppSelector(selectCocktails);
   const isLoading = useAppSelector(selectIsLoading);
 
-  console.log(cocktails);
 
   const onPublishCocktails = async (id: string) => {
-    console.log('Publishing cocktail with ID:', id);
     await dispatch(publishCocktail(id));
     dispatch(fetchCocktailsThunk());
   };
@@ -32,7 +30,7 @@ const UnpublishedCocktails = () => {
               .filter((cocktail) => !cocktail.isPublished)
               .map((cocktail) => (
                 <div key={cocktail._id} className="bg-white shadow-md p-4 rounded-lg flex  flex-col items-center">
-                  <CocktailItem name={cocktail.name} image={cocktail.image} recipe={cocktail.recipe}/>
+                  <CocktailItem name={cocktail.name} image={cocktail.image} recipe={cocktail.recipe} _id={cocktail._id}/>
                   <Button
                     onClick={() => onPublishCocktails(cocktail._id)}
                   >

@@ -3,7 +3,6 @@ import NoPic
   from '../../assets/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg';
 import React from 'react';
 
-
 interface CocktailProps {
   name: string;
   image?: string | null;
@@ -29,7 +28,7 @@ const CocktailItem: React.FC<CocktailProps> = ({name, image, recipe, _id}) => {
           <p className="mb-3 font-normal text-blue-600 overflow-hidden text-ellipsis whitespace-nowrap flex-grow">
             {recipe}
           </p>
-          <div className="mt-auto">
+          <div className="mt-auto flex flex-wrap justify-between items-center gap-2">
             <a
               href={`/cocktails/${_id}`}
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:focus:ring-indigo-900 transition-all duration-300"

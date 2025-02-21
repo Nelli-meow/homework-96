@@ -29,8 +29,6 @@ CocktailRouter.get('/:id', async (req, res, next) => {
             return;
         }
 
-        console.log(id)
-
         res.status(200).send(cocktail);
     } catch (error) {
         res.status(500).send({message: "Something went wrong"});
@@ -100,8 +98,6 @@ CocktailRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req, 
             res.status(404).send({error: "cocktail not found"});
             return;
         }
-
-        console.log("Received ID:", id);
 
         cocktail.isPublished = !cocktail.isPublished;
         await cocktail.save();

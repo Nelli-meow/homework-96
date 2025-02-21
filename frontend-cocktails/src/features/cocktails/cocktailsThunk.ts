@@ -55,3 +55,10 @@ export const publishCocktail = createAsyncThunk(
     }
   }
 );
+
+export const deleteCocktail = createAsyncThunk<void, string>(
+  'cocktails/deleteCocktail',
+  async (id)=> {
+      await axiosApi.delete(`/cocktails/${id}`);
+  }
+);

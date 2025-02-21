@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICocktails } from '../../types';
-import { addNewCocktail, fetchCocktailsThunk, getOneCocktail, publishCocktail } from './cocktailsThunk.ts';
+import {
+  addNewCocktail,
+  deleteCocktail,
+  fetchCocktailsThunk,
+  getOneCocktail,
+  publishCocktail
+} from './cocktailsThunk.ts';
 import { RootState } from '../../app/store.ts';
 
 interface ICocktailsState {
@@ -11,6 +17,7 @@ interface ICocktailsState {
   isPublished: boolean,
   isLoading: boolean,
   createLoading: boolean,
+  deleteCocktail: boolean,
 }
 
 const initialState: ICocktailsState = {
@@ -21,6 +28,7 @@ const initialState: ICocktailsState = {
   isPublished: false,
   isLoading: false,
   createLoading: false,
+  deleteCocktail: false,
 };
 
 export const selectCocktails = (state: RootState) => state.cocktails.Cocktails;
@@ -83,6 +91,17 @@ export const cocktailsSlice = createSlice({
       })
       .addCase(getOneCocktail.rejected, (state) => {
         state.isLoading = false;
+      })
+
+      .addCase(deleteCocktail.pending, (state) => {
+        state.deleteCocktail = true;
+      })
+      .addCase(deleteCocktail.fulfilled, (state, action) => {
+        state.deleteCocktail = false;
+        state.Cocktails = state.Cocktails.filter(cocktail => cocktail._id !== action.meta.arg);
+      })
+      .addCase(deleteCocktail.rejected, (state) => {
+        state.deleteCocktail = false;
       });
   }
 });

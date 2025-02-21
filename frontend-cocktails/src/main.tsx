@@ -8,6 +8,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { GOOGLE_CLIENT_ID } from './globalConstants.ts';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addInterceptor } from './axiosApi.ts';
+
+addInterceptor(store);
 
 createRoot(document.getElementById('root')!).render(
   <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
