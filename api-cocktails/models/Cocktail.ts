@@ -27,7 +27,7 @@ const CocktailSchema = new Schema({
     ingredients: [
         {
             ingredientName: { type: String, required: true },
-            ingredientAmount: { type: String, required: true },
+            ingredientAmount: { type: Number, required: true },
         }
     ],
     rating: [

@@ -3,17 +3,28 @@ import RegisterPage from './features/users/RegisterPage.tsx';
 import LoginPage from './features/users/LoginPage.tsx';
 import Header from './components/Header/Header.tsx';
 import  './App.css';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.tsx';
+import { useAppSelector } from './app/hooks.ts';
+import { selectUser } from './features/users/UsersSlice.ts';
+import NewCocktail from './features/cocktails/cocktailContainer/NewCocktail.tsx';
+import MainPage from './containers/MainPage.tsx';
 
 const App = () => {
+  const user = useAppSelector(selectUser);
 
   return (
     <>
       <Header/>
       <Routes>
-
+        <Route path="/" element={<MainPage/>} />
         <Route path="/register" element={<RegisterPage/>} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="*" element={<p className="text-center">Page is not  found</p>} />
+        <Route path="/cocktails/new" element={
+          <ProtectedRoute isaAllowed={!!user}>
+            <NewCocktail/>
+          </ProtectedRoute>
+        } />
       </Routes>
     </>
   );

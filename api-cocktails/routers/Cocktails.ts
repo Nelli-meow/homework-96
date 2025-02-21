@@ -28,6 +28,8 @@ CocktailRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'adm
             return;
         }
 
+        const parseIngredients = req.body.ingredients ? JSON.parse(req.body.ingredients) : [];
+
         const {name} = req.body;
 
         if (!name) {
@@ -40,7 +42,7 @@ CocktailRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'adm
             name: name,
             image: req.file ? 'images' + req.file.filename : null,
             recipe: req.body.recipe,
-            ingredients: req.body.ingredients,
+            ingredients: parseIngredients,
         }
 
         const cocktail = new Cocktail(newCocktail);
