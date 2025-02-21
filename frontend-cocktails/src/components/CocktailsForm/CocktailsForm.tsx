@@ -20,6 +20,7 @@ const CocktailsForm: React.FC<Props> = ({onSubmit}) => {
   const [ingredients, setIngredients] = useState<{ ingredientName: string, ingredientAmount: number }[]>([]);
   const navigate = useNavigate();
 
+
   const onSubmitCocktail = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -79,7 +80,6 @@ const CocktailsForm: React.FC<Props> = ({onSubmit}) => {
   return (
     <div className="max-w-lg mx-auto mt-6 bg-white shadow-lg rounded-lg p-6">
       <h2 className="text-2xl font-semibold text-center mb-5">Add New Cocktail</h2>
-
       <form onSubmit={onSubmitCocktail} className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-gray-700 font-medium mb-1">

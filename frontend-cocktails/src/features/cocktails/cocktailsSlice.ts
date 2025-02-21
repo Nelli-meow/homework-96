@@ -9,6 +9,7 @@ interface ICocktailsState {
   fetchCocktailById: boolean,
   isPublished: boolean,
   isLoading: boolean,
+  createLoading: boolean,
 }
 
 const initialState: ICocktailsState = {
@@ -17,10 +18,12 @@ const initialState: ICocktailsState = {
   fetchCocktailById: false,
   isPublished: false,
   isLoading: false,
+  createLoading: false,
 };
 
 export const selectCocktails = (state: RootState) => state.cocktails.Cocktails;
 export const selectIsLoading = (state: RootState) => state.cocktails.isLoading;
+export const selectIsCreateLoading = (state: RootState) => state.cocktails.createLoading;
 
 export const cocktailsSlice = createSlice({
   name: 'cocktails',
@@ -30,23 +33,29 @@ export const cocktailsSlice = createSlice({
     builder
       .addCase(fetchCocktailsThunk.pending, (state) => {
         state.fetchCocktails = true;
+        state.isLoading = true;
       })
       .addCase(fetchCocktailsThunk.fulfilled, (state, {payload: cocktails}) => {
         state.fetchCocktails = false;
         state.Cocktails = cocktails;
+        state.isLoading = false;
       })
       .addCase(fetchCocktailsThunk.rejected, (state) => {
         state.fetchCocktails = false;
+        state.isLoading = false;
       })
 
       .addCase(addNewCocktail.pending, (state) => {
         state.fetchCocktails = true;
+        state.createLoading = true;
       })
       .addCase(addNewCocktail.fulfilled, (state) => {
         state.fetchCocktails = false;
+        state.createLoading = false;
       })
       .addCase(addNewCocktail.rejected, (state) => {
         state.fetchCocktails = false;
+        state.createLoading = false;
       });
   }
 });

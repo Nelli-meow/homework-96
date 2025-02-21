@@ -4,6 +4,9 @@ import { selectUser } from '../../users/UsersSlice.ts';
 import CocktailsForm from '../../../components/CocktailsForm/CocktailsForm.tsx';
 import { addNewCocktail, fetchCocktailsThunk } from '../cocktailsThunk.ts';
 import { ICocktailMutation } from '../../../types';
+import { toast } from 'react-toastify';
+
+
 
 const NewCocktail = () => {
   const dispatch = useAppDispatch();
@@ -12,8 +15,9 @@ const NewCocktail = () => {
 
   const onSubmit = async (cocktail: ICocktailMutation) => {
     if (user) {
-      await dispatch(addNewCocktail({ cocktail, token: user.token }));
+      await dispatch(addNewCocktail({cocktail, token: user.token}));
       await dispatch(fetchCocktailsThunk());
+      toast.success('Your cocktail is under moderator review ;)');
       navigate('/');
     }
   };
