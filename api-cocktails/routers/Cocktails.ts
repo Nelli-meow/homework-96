@@ -18,6 +18,26 @@ CocktailRouter.get("/", async (req, res) => {
     }
 });
 
+CocktailRouter.get('/:id', async (req, res, next) => {
+    try {
+        const {id} = req.params;
+
+        const cocktail = await Cocktail.findById(id);
+
+        if (!cocktail) {
+            res.status(404).send({error: 'Cocktail not found!'});
+            return;
+        }
+
+        console.log(id)
+
+        res.status(200).send(cocktail);
+    } catch (error) {
+        res.status(500).send({message: "Something went wrong"});
+    }
+});
+
+
 CocktailRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'admin'), async (req, res) => {
     try {
         const expressReq = req as RequestWithUser;
@@ -50,7 +70,7 @@ CocktailRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'adm
 
         res.status(200).send(cocktail);
     } catch (error) {
-        console.log(error);
+        res.status(500).send({message: "Something went wrong"});
     }
 });
 

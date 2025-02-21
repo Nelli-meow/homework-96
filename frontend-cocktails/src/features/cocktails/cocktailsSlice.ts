@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICocktails } from '../../types';
-import { addNewCocktail, fetchCocktailsThunk, publishCocktail } from './cocktailsThunk.ts';
+import { addNewCocktail, fetchCocktailsThunk, getOneCocktail, publishCocktail } from './cocktailsThunk.ts';
 import { RootState } from '../../app/store.ts';
 
 interface ICocktailsState {
   Cocktails: ICocktails[],
+  oneCocktail: ICocktails | null,
   fetchCocktails: boolean,
   fetchCocktailById: boolean,
   isPublished: boolean,
@@ -14,6 +15,7 @@ interface ICocktailsState {
 
 const initialState: ICocktailsState = {
   Cocktails: [],
+  oneCocktail: null,
   fetchCocktails: false,
   fetchCocktailById: false,
   isPublished: false,
@@ -24,6 +26,7 @@ const initialState: ICocktailsState = {
 export const selectCocktails = (state: RootState) => state.cocktails.Cocktails;
 export const selectIsLoading = (state: RootState) => state.cocktails.isLoading;
 export const selectIsCreateLoading = (state: RootState) => state.cocktails.createLoading;
+export const selectCocktail  = (state: RootState) => state.cocktails.oneCocktail;
 
 export const cocktailsSlice = createSlice({
   name: 'cocktails',
@@ -69,6 +72,17 @@ export const cocktailsSlice = createSlice({
       })
       .addCase(publishCocktail.rejected, (state) => {
         state.isPublished = false;
+      })
+
+      .addCase(getOneCocktail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOneCocktail.fulfilled, (state, {payload: oneCocktail}) => {
+        state.oneCocktail = oneCocktail;
+        state.isLoading = false;
+      })
+      .addCase(getOneCocktail.rejected, (state) => {
+        state.isLoading = false;
       });
   }
 });

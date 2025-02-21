@@ -10,6 +10,7 @@ import NewCocktail from './features/cocktails/cocktailContainer/NewCocktail.tsx'
 import MainPage from './containers/MainPage.tsx';
 import AdminPage from './containers/AdminPage/AdminPage.tsx';
 import UnpublishedCocktails from './containers/AdminPage/UnpublishedCocktails.tsx';
+import CocktailInfoPage from './containers/CocktailInfoPage/CocktailInfoPage.tsx';
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/" element={<MainPage/>} />
         <Route path="/register" element={<RegisterPage/>} />
         <Route path="/login" element={<LoginPage/>} />
+        <Route path="/cocktails/:id" element={<CocktailInfoPage/>}/>
         <Route path="*" element={<p className="text-center">Page is not  found</p>} />
         <Route path="/cocktails/new" element={
           <ProtectedRoute isaAllowed={!!user}>
