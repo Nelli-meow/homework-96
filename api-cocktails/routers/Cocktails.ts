@@ -35,6 +35,27 @@ CocktailRouter.get('/:id', async (req, res, next) => {
     }
 });
 
+CocktailRouter.get('/:userId', async (req, res, next) => {
+    try {
+
+        const {userId} = req.params;
+
+        const cocktails = await Cocktail.find({ user: userId });
+
+        console.log(`Fetching cocktails for user: ${userId}`);
+
+        if (!cocktails) {
+            res.status(404).send({error: 'Cocktails not found!'});
+            return;
+        }
+
+        res.status(200).send(cocktails);
+    } catch (error) {
+        res.status(500).send({message: "Something went wrong"});
+    }
+});
+
+
 
 CocktailRouter.post("/", imagesUpload.single('image'), auth, permit('user', 'admin'), async (req, res) => {
     try {

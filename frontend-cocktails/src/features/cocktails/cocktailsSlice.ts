@@ -3,7 +3,7 @@ import { ICocktails } from '../../types';
 import {
   addNewCocktail,
   deleteCocktail,
-  fetchCocktailsThunk,
+  fetchCocktailsThunk, fetchUserCocktailsThunk,
   getOneCocktail,
   publishCocktail
 } from './cocktailsThunk.ts';
@@ -18,6 +18,7 @@ interface ICocktailsState {
   isLoading: boolean,
   createLoading: boolean,
   deleteCocktail: boolean,
+  userCocktails: ICocktails[],
 }
 
 const initialState: ICocktailsState = {
@@ -29,12 +30,15 @@ const initialState: ICocktailsState = {
   isLoading: false,
   createLoading: false,
   deleteCocktail: false,
+  userCocktails: [],
 };
 
 export const selectCocktails = (state: RootState) => state.cocktails.Cocktails;
 export const selectIsLoading = (state: RootState) => state.cocktails.isLoading;
 export const selectIsCreateLoading = (state: RootState) => state.cocktails.createLoading;
-export const selectCocktail  = (state: RootState) => state.cocktails.oneCocktail;
+export const selectCocktail = (state: RootState) => state.cocktails.oneCocktail;
+export const selectUserCocktails = (state: RootState) => state.cocktails.userCocktails;
+
 
 export const cocktailsSlice = createSlice({
   name: 'cocktails',
@@ -102,6 +106,17 @@ export const cocktailsSlice = createSlice({
       })
       .addCase(deleteCocktail.rejected, (state) => {
         state.deleteCocktail = false;
+      })
+
+      .addCase(fetchUserCocktailsThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchUserCocktailsThunk.fulfilled, (state, { payload: userCocktails }) => {
+        state.isLoading = false;
+        state.userCocktails = userCocktails;
+      })
+      .addCase(fetchUserCocktailsThunk.rejected, (state) => {
+        state.isLoading = false;
       });
   }
 });

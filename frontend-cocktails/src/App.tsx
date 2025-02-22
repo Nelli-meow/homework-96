@@ -11,6 +11,8 @@ import MainPage from './containers/MainPage.tsx';
 import AdminPage from './containers/AdminPage/AdminPage.tsx';
 import UnpublishedCocktails from './containers/AdminPage/UnpublishedCocktails.tsx';
 import CocktailInfoPage from './containers/CocktailInfoPage/CocktailInfoPage.tsx';
+import UsersCocktailsPage from './containers/UsersCocktails/UsersCocktailsPage.tsx';
+
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -23,6 +25,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage/>} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/cocktails/:id" element={<CocktailInfoPage/>}/>
+        <Route path="/my-cocktails" element={<UsersCocktailsPage/>}/>
         <Route path="*" element={<p className="text-center">Page is not  found</p>} />
         <Route path="/cocktails/new" element={
           <ProtectedRoute isaAllowed={!!user}>

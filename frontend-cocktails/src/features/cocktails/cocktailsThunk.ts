@@ -62,3 +62,11 @@ export const deleteCocktail = createAsyncThunk<void, string>(
       await axiosApi.delete(`/cocktails/${id}`);
   }
 );
+
+export const fetchUserCocktailsThunk = createAsyncThunk<ICocktails[], string>(
+  'cocktails/fetchUserCocktails',
+  async (userId: string) => {
+    const response = await axiosApi<ICocktails[]>(`/cocktails/${userId}`);
+    return response.data;
+  }
+);

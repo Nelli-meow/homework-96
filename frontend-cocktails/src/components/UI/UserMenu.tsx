@@ -45,6 +45,12 @@ const UserMenu: React.FC<Props> = ({user}) => {
     handleClose();
   };
 
+  const handleUsersCocktails = () => {
+    navigate('/my-cocktails');
+    handleClose();
+  };
+
+
 
   return user && (
     <>
@@ -62,6 +68,9 @@ const UserMenu: React.FC<Props> = ({user}) => {
       >
         {user && user.role === 'admin' && (
           <MenuItem onClick={handleUnpublished}>Unpublished</MenuItem>
+        )}
+        {user && user.role === 'user' && (
+          <MenuItem onClick={handleUsersCocktails}>My cocktails</MenuItem>
         )}
         <MenuItem onClick={handleAlbums}>Add new cocktail</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>

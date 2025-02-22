@@ -116,6 +116,7 @@ const CocktailsForm: React.FC<Props> = ({onSubmit}) => {
               </div>
               <div className="w-20">
                 <input
+                  min={1}
                   type="number"
                   id={`ingredient-${index}`}
                   name="ingredientAmount"
